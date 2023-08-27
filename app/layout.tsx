@@ -1,13 +1,14 @@
 import "@styles/globals.css";
 import Nav from "@components/Nav";
 import Provider from "@components/Provider";
+import { ReactNode } from "react";
 
 export const metadata = {
 	title: "Promptopia",
 	description: "Discover and share AI prompts",
 };
 
-const RootLayout = ({ children }: any) => {
+const RootLayout = ({ children }: { children: ReactNode }) => {
 	return (
 		<html>
 			<body lang="en">
