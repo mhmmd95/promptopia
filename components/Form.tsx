@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ChangeEvent } from 'react'
+import {Post} from '@interfaces/Post';
 
 const Form = ({type, post, setPost, submitting, handleSubmit}: any) => {
   return (
@@ -22,8 +23,8 @@ const Form = ({type, post, setPost, submitting, handleSubmit}: any) => {
           </span>
 
           <textarea 
-            value={post.value}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setPost((prevPost: any) =>  {
+            value={post.prompt}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setPost((prevPost: Post) =>  {
               return {...prevPost, prompt: e.target.value}
             })}
             placeholder='Write your prompt here..'
@@ -41,8 +42,8 @@ const Form = ({type, post, setPost, submitting, handleSubmit}: any) => {
 
           <input
             type='text'
-            value={post.value}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setPost((prevPost: any) =>  {
+            value={post.tag}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setPost((prevPost: Post) =>  {
               return {...prevPost, tag: e.target.value}
             })}
             name='tag'
