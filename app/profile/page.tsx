@@ -7,23 +7,44 @@ import { useState, useEffect } from "react";
 import Profile from "@components/Profile";
 
 const ProfilePage = () => {
-    const {data: session} = useSession();//get the data from the session and rename it to session
-    const router = useRouter();
-    const [posts, setPosts] = useState([]);
-	const handleDelete = async (post: any) => {};
-	const handleEdit = (post: any) => {
-        router.push(`/update-prompt?id=${post._id}`)
-    };
+	const { data: session } = useSession(); //get the data from the session and rename it to session
+	const router = useRouter();
+	const [posts, setPosts] = useState([]);
+	const handleDelete = async (post: any) => {
+		const hasConfirmed = confirm(
+      "Are you sure you want to delete this prompt?"
+    );
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-          const response = await fetch(`/api/users/${session?.user.id}/posts`);
-          const data = await response.json();
-          setPosts(data);
-        }
-    
-        if(session?.user) {fetchPosts();}
-      }, []);
+    if (hasConfirmed) {
+      try {
+        await fetch(`/api/prompt/${post._id.toString()}`, {
+          method: "DELETE",
+        });
+
+        const filteredPosts = posts.filter((item: any) => item._id !== post._id);
+
+        setPosts(filteredPosts);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const handleEdit = (post: any) => {
+    router.push(`/update-prompt?id=${post._id}`)
+  };
+
+	useEffect(() => {
+		const fetchPosts = async () => {
+			const response = await fetch(`/api/users/${session?.user.id}/posts`);
+			const data = await response.json();
+			setPosts(data);
+		};
+
+		if (session?.user) {
+			fetchPosts();
+		}
+	}, []);
 
 	return (
 		<Profile
